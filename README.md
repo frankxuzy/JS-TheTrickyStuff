@@ -148,12 +148,6 @@ Call | thisArg, a, b, c, d , ... | Yes
 Apply | thisArg, [a,b,c,d, ...] | Yes
 Bind | thisArg, a, b, c, d , ...	| No
 
-*Function definition:*
-```
-var sayHi = function(){return "Hi"}
-sayHi <= function definition
-```
-
 e.g. Fixing up with `call`
 ```
 var person = {
@@ -226,7 +220,7 @@ var elie = {
 colt.sayHi() //Hi Colt
 colt.sayHi.call(elie); //Hi Elie
 ```
-e.g. What about Apply? 
+e.g. What about `apply`? 
 *It's almost identical to call - except the parameters!*
 
 ```
@@ -254,6 +248,86 @@ colt.addNumbers.apply(elie,[1,2,3,4]) // Elie just calculated 10
 
 
 ```
+
+e.g. What about `bind`?
+*The parameters work like call, but bind returns a Function Definition with the context of 'this' bound already!*
+
+*Function definition:*
+```
+var sayHi = function(){return "Hi"}
+sayHi <= function definition
+```
+
+```
+var colt = {
+    firstName: "Colt",
+    sayHi: function(){
+        return "Hi " + this.firstName 
+    },
+    addNumbers: function(a,b,c,d){
+        return this.firstName + " just calculated " + (a+b+c+d);
+    }
+}
+
+var elie = {
+    firstName: "Elie"
+}
+```
+
+```
+var elieCalc = colt.addNumbers.bind(elie,1,2,3,4) // function(){}...
+elieCalc() // Elie just calculated 10
+```
+
+```
+// With bind - we do not need to know all the arguments up front!
+
+var elieCalc = colt.addNumbers.bind(elie,1,2) //Function definition, partial application
+elieCalc(3,4) // Elie just calculated 10  
+```
+
+Bind in the wild
+e.g. Tricky example
+```
+var colt = {
+    firstName: "Colt",
+    sayHi: function(){
+        setTimeout(function(){
+            console.log("Hi " + this.firstName)
+        },1000)
+    }
+}
+```
+```
+colt.sayHi() // Hi undefined (1000 milliseconds later)
+```
+In this example, `this` not refer to the parent object. It actually refer to the global object.
+Since the `setTimeout` is called at a later point in time, the object that it is attached to is actually the `window`,
+just likewe said before `setTimeout` is a method on the `window` object even though it's defined inside of the cold object
+When it's declared, the context in which the function is executed is actually the global context.
+
+*Use bind to set the correct context of 'this'*
+```
+var colt = {
+    firstName: "Colt",
+    sayHi: function(){
+        setTimeout(function(){
+            console.log("Hi " + this.firstName)
+        }.bind(this),1000)
+    }
+}
+```
+```
+colt.sayHi() // Hi Colt (1000 milliseconds later)
+```
+
+** To recap we saw that the bind method returns a function definition unlike `call` and `apply` and it's very useful for setting
+the value of the keyword `this` 
+- when we do not know all of the values for arguments to pass to the function.
+- when we are working with asynchronous code.
+
+**
+
 
 
 
