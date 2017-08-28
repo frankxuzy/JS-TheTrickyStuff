@@ -322,11 +322,11 @@ colt.sayHi() // Hi Colt (1000 milliseconds later)
 ```
 
 ** To recap we saw that the bind method returns a function definition unlike `call` and `apply` and it's very useful for setting
-the value of the keyword `this` 
-- when we do not know all of the values for arguments to pass to the function.
-- when we are working with asynchronous code.
+the value of the keyword `this` **
+ ** - when we do not know all of the values for arguments to pass to the function. **
+ ** - when we are working with asynchronous code. **
 
-**
+
 
 
 
