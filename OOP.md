@@ -120,6 +120,9 @@ var fido = new Dog('Fido', 1);
 
 rusty.bark() // Rusty just barked!
 fido.bark() // Fido just barked!
+
+```
+
 ```
 function Dog(name, age) {
 	this.name = name;
