@@ -88,6 +88,175 @@ variablesInThis() // TypeError, can't set person on undefined!
 
 whatIsThis() // undefined
 ```
+#### 2 - Implicit / Object rule
+When the keyword `this` is inside of a declared object. The value of the keyword `this` will always be the closest parent object.
+
+e.g.
+```
+var person = {
+    firstName: "Elie",
+    sayHi: function(){
+        return "Hi " + this.firstName
+    },
+    determineContext: function(){
+        return this === person
+    }
+}
+```
+```
+person.sayHi() // "Hi Elie"
+```
+```
+person.determineContext() // true
+```
+
+What happens when we have a nested object?
+```
+var person = {
+    firstName: "Colt",
+    sayHi: function(){
+        return "Hi " + this.firstName;
+    },
+    determineContext: function(){
+        return this === person;
+    },
+    dog: {
+        sayHello: function(){
+            return "Hello " + this.firstName;
+        },
+        determineContext: function(){
+            return this === person;
+        }        
+    }
+}
+```
+```
+person.sayHi() // "Hi Colt"
+person.determineContext() // true
+
+// but what is the value of the keyword this right now?
+person.dog.sayHello() // "Hello undefined"
+person.dog.determineContext() // false
+```
+
+#### 3 - Explicit binding
+Choose what we want the context of `this` to be using `call`, `apply` or `bind`
+
+NAME OF METHOD | PARAMETERS	| INVOKE IMMEDIATELY?
+-------------- | ---------- | -------------------
+Call | thisArg, a, b, c, d , ... | Yes
+Apply | thisArg, [a,b,c,d, ...] | Yes
+Bind | thisArg, a, b, c, d , ...	| No
+
+*Function definition:*
+```
+var sayHi = function(){return "Hi"}
+sayHi <= function definition
+```
+
+e.g. Fixing up with `call`
+```
+var person = {
+    firstName: "Colt",
+    sayHi: function(){
+        return "Hi " + this.firstName
+    },
+    determineContext: function(){
+        return this === person
+    },
+    dog: {
+        sayHello: function(){
+            return "Hello " + this.firstName
+        },
+        determineContext: function(){
+            return this === person
+        }        
+    }
+}
+```
+
+```
+person.sayHi() // "Hi Colt"
+person.determineContext() // true
+
+person.dog.sayHello.call(person) // "Hello Colt"
+person.dog.determineContext.call(person) // true
+
+// Using call worked! Notice that we do NOT invoke sayHello or determineContext
+```
+
+e.g. Using Call in the Wild
+```
+var colt = {
+    firstName: "Colt",
+    sayHi: function(){
+        return "Hi " + this.firstName 
+    }
+}
+
+var elie = {
+    firstName: "Elie",
+    // Look at all this duplication :(
+    sayHi: function(){
+        return "Hi " + this.firstName 
+    }
+}
+
+colt.sayHi() // Hi Colt
+elie.sayHi() // Hi Elie (but we had to copy and paste the function from above...)
+
+// How can we refactor the duplication using call? 
+
+// How can we "borrow" the sayHi function from colt 
+// and set the value of 'this' to be elie?
+```
+solution
+```
+var colt = {
+	firstName: "Colt",
+	sayHi: function(){
+		return "Hi " + this.firstName
+	}
+}
+
+var elie = {
+	firstName: "Elie"
+}
+
+colt.sayHi() //Hi Colt
+colt.sayHi.call(elie); //Hi Elie
+```
+e.g. What about Apply? 
+*It's almost identical to call - except the parameters!*
+
+```
+var colt = {
+	firstName: "Colt",
+	sayHi: function(){
+		return "Hi " + this.firstName
+	},
+	addNumbers: function(a,b,c,d){
+		return this.firstName + " just calculated " + (a+b+c+d);
+	} 
+}
+
+var elie = {
+	firstName: "Elie"
+}
+
+colt.sayHi() // Hi Colt
+colt.saiHi.apply(elie);  //Hi Elie
+// well this seems the same....but what happens when we start adding arguments?
+
+colt.addNumbers(1,2,3,4) // Colt just calculated 10
+colt.addNumbers.call(elie,1,2,3,4) // Elie just caculated 10
+colt.addNumbers.apply(elie,[1,2,3,4]) // Elie just calculated 10
+
+
+```
+
+
+
 
 
 
