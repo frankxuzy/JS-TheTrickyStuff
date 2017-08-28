@@ -319,6 +319,44 @@ colt.sayHi() // Hi Colt (1000 milliseconds later)
  - **when we are working with asynchronous code.**
 
 
+#### 4 - The 'new' keyword
+e.g.
+```
+function Person(firstName, lastName){
+    this.firstName = firstName
+    this.lastName = lastName
+    //the value of the keyword this is the global object.
+}
+```
+```
+var elie = new Person("Elie", "Schoppik");
+//The value of the keyword `this` changes when we use the `new` keyword.
+```
+```
+elie.firstName // "Elie"
+elie.lastName // "Schoppik"
+```
+The keyword `this` now refers to an object that is created when the `new` keyword is used
+We are storing that object in a variable called elie and can then access the first name and last name properties on it.
+
+**RECAP**
+- **The keyword 'this' is a reserved keyword in JavaScript and its value is determined at execution**
+- **It is either set using the global context, object binding, explicit binding, or the new keyword**
+- **When set in the global context in a function, it is either the global object (window if in the browser) or undefined (if we are using strict mode)**
+- **To explicitly set the value of the keyword 'this', we use call, apply, or bind**
+- **We can also use the 'new' keyword to set the context of 'this', which we will discuss when we talk about Object Oriented Programming**
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
