@@ -19,8 +19,9 @@ We previously used the `new` keyword to create objects from constructor function
 We're going to focus on the 4th point - let's see what that link looks like!
 
 ### A Small Diagram
-![Image of proto]
-(assets/proto_1.png)
+
+<img src="assets/proto_1.png" alt="Image of Prototype_chain">
+
 
 - Every constructor function has a property on it called "prototype", which is an object
 - The prototype object has a property on it called "constructor", which points back to the constructor function
@@ -105,9 +106,8 @@ The answer is in Dunder proto.
 ### Prototype Chain
 How does JavaScript find methods and properties?
 
+<img src="assets/Prototype_chain.png" alt="Image of Prototype_chain">
 
-![Image of Prototype_chain]
-(assets/Prototype_chain.png)
 
 ### Refactoring 
 
