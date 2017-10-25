@@ -27,3 +27,31 @@ sendMessage("Message for console." cocnsole.log);
 sendMessage("Message for alert." alert);
 var answer = sendMessage("Are you sure?" confirm);
 ```
+
+### Callbacks With Function Declarations
+```
+function greet(name, formatter) {
+    return `Hello, ${formatter(name)}`
+}
+
+function upperCaseName(name) {
+    return name.toUpperCase();
+}
+
+greet("Tim", upperCaseName);
+```
+
+### Callbacks With Anonymous Functions
+```
+function greet(name, formatter) {
+  return "Hello, " + formatter(name);
+}
+
+greet("Tim", function(name) {
+  return name.toUpperCase();
+});
+
+greet("Tim", function(name) {
+  return name + "!!!!!";
+});
+```
