@@ -162,8 +162,7 @@ var incCounter = () => {
 var runLater = (callback, runInMs) => {
     var p = new Promise((resolve, reject) => {
         setTimeout(() => {
-            var res = callback();
-            resolve(res);
+            resolve(callback());
         }, runInMs);
     });
     return p;
