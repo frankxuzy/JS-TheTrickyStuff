@@ -148,3 +148,29 @@ fetch(url, {
   //handle error
 });
 ```
+
+### Fetch handing error
+
+```
+
+var url = "https://api.github.com/asdfasdf";
+var btn = document.querySelector("button");
+
+btn.addEventListener('click', function(){
+    fetch(url)
+  .then(function(res){
+    if(!res.ok) {
+      //res.status will be passed to catch function argument
+      throw Error(res.status);
+    }
+      return res;
+  })
+  .then(function(res){
+    console.log("EVERYTHING IS FINE.");
+      console.log(res);
+  })
+  .catch(function(err){
+    console.log(err)
+  });
+});
+```

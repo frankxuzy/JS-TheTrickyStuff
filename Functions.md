@@ -12,7 +12,7 @@ function forEach(arr, callback) {
 ```
 
 ### findIndex function
-create forEach function
+create findIndex function
 ```
 function findIndex(arr, callback) {
     for(var i = 0; i < arr.length; i++) {
