@@ -111,3 +111,40 @@ btn.addEventListener("click", function(){
   
 });
 ```
+
+# Fetch Intro
+### Problems with XHR
+- Ugly, Bulky Syntax
+- It's 16 years old
+- no streaming
+
+### First Fetch demo
+```
+var url = "https://api.coindesk.com/v1/bpi/currentprice.json";
+fetch(url)
+.then(function(res) {
+  return res.json();  
+})
+.then(function(data) {
+  console.log(data.bpi.USD.rate);
+});
+```
+
+### Fetch option
+```
+var url = "https://api.coindesk.com/v1/bpi/currentprice.json";
+fetch(url, {
+  method: 'POST',
+  // convert JSON to string before sending
+  body: JSON.stringify({
+    name: 'blue',
+    login: 'bluecat',
+  }) 
+})
+.then(function(res){
+  //do something
+})
+.catch(function(rej){
+  //handle error
+});
+```
