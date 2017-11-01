@@ -174,3 +174,7 @@ btn.addEventListener('click', function(){
   });
 });
 ```
+
+### Fetch demo 
+Fetch User Profile Generator
+https://codepen.io/hungerfool/pen/POomrd

@@ -11,6 +11,43 @@ function forEach(arr, callback) {
 
 ```
 
+### map function
+create map function
+```
+function map(arr, callback) {
+    var newArr = [];
+    for (var i = 0; i < arr.length; i++) {
+        newArr.push(callback(arr[i], i, arr));
+    }
+    return newArr;
+}
+```
+e.g.1
+```
+function tripleValues(arr) {
+    return arr.map(function(value){
+        return value * 3;
+    });
+}
+
+tripleValues([1,2,3]); //[3,6,9]
+```
+
+### filter function
+create filter function
+```
+function filter(arr, callback) {
+    var newArr = [];
+    for(var i = 0; i < arr.length; i++){
+        if(callback(arr[i], i , arr)) {
+            newArr.push(arr[i]));
+        }
+    }
+    return newArr;
+}  
+```
+
+
 ### findIndex function
 create findIndex function
 ```
