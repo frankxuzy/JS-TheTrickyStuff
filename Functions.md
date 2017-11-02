@@ -32,6 +32,19 @@ function tripleValues(arr) {
 
 tripleValues([1,2,3]); //[3,6,9]
 ```
+e.g.2
+```
+function onlyFirstName(arr){
+    return arr.map(function(val){
+        return val.first;
+    });
+}
+
+onlyFirstName([{first: 'Tim', last:'Garcia'}, {first:'Matt', last: 'Lane'}]); 
+
+// ['Tim', 'Matt]
+
+```
 
 ### filter function
 create filter function
@@ -40,12 +53,176 @@ function filter(arr, callback) {
     var newArr = [];
     for(var i = 0; i < arr.length; i++){
         if(callback(arr[i], i , arr)) {
-            newArr.push(arr[i]));
+            newArr.push(arr[i]); 
         }
     }
     return newArr;
 }  
 ```
+
+e.g.1
+```
+var arr = [1,2,3];
+
+arr.filter(function(value, index, array){
+    // no need for an if statement
+    // just return an expression 
+    // that evaluates to true or false!
+    return value > 2;
+});
+
+// [3]
+
+```
+
+e.g.2
+
+```
+var instructors = [{name: "Elie"},
+                   {name: "Tim"},
+                   {name: "Matt"},
+                   {name: "Colt"}
+                  ];
+
+instructors.filter(function(value, index, array){
+    return value.name.length > 3;
+});
+
+// [{name: "Elie"},{name: "Matt"},{name: "Colt"}];
+
+```
+
+e.g.3
+
+```
+function onlyFourLetterNames(arr){
+    return arr.filter(function(value){
+        return value.length === 4;
+    });
+}
+
+onlyFourLetterNames(['Rusty', 'Matt', 'Moxie', 'Colt']); // ['Matt', 'Colt']
+
+```
+e.g.4
+```
+function divisibleByThree(arr){
+    return arr.filter(function(value){
+        return value % 3 === 0;
+    });
+}
+
+divisibleByThree([1,2,3,4,5,6,7,8,9]); // [3,6,9]
+```
+
+### some function
+create some function
+```
+function some(arr, callback){
+    for(var i = 0; i < arr.length; i++) {
+        if(callback(arr[i], i, arr)){
+            return true;
+        }
+    }
+    return false;
+}
+
+```
+
+e.g.1
+```
+var arr = [1,2,3];
+
+arr.some(function(value, index, array){
+    return value < 2;
+});
+
+// true
+
+```
+e.g.2
+```
+function hasEvenNumber(arr){
+    return arr.some(function(value){
+        return value % 2 === 0;
+    });
+}
+
+hasEvenNumber([1,2,3,4]); // true
+hasEvenNumber([1,3,5]); // false
+```
+e.g.3
+
+```
+function hasComma(str){
+    return str.split('').some(function(value){
+        return value === ',';
+    });
+}
+
+hasComma('This is wonderful'); // false
+hasComma('This, is wonderful'); // true
+
+```
+
+### every function
+create every function
+```
+function every(arr, callback){
+    for(var i = 0; i < arr.length; i++) {
+        if(callback(arr[i], i, arr) === false){
+            return false;
+        }
+    }
+    return true;
+}
+
+```
+e.g.1
+```
+var arr = [-1,-2,-3];
+
+arr.every(function(value, index, array){
+    return value < 0;
+});
+
+// true
+
+```
+e.g.2
+```
+var arr = [1,2,3];
+
+arr.every(function(value, index, array){
+    return value > 2;
+});
+
+// false
+
+```
+e.g.3
+```
+function allLowerCase(str){
+    return str.split('').every(function(value){
+        return value === value.toLowerCase();
+    });
+}
+
+allLowerCase('this is really nice'); // true
+allLowerCase('this is Really nice'); // false
+```
+
+e.g.4
+```
+function allArrays(arr){
+    return arr.every(Array.isArray);
+}
+
+allArrays([[1], [2], [3,4]]); // true
+allArrays([[1], [2], {}]); // false
+```
+
+
 
 
 ### findIndex function
