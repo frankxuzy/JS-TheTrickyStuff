@@ -488,7 +488,7 @@ Examples:
 */
 
 function vowelCount(str){
-   strToArr = str.toLowerCase().split('');
+   var strToArr = str.toLowerCase().split('');
    vowelStr = 'aeiou';
    return strToArr.reduce(function(acc, next){
        if(vowelStr.includes(next)){
@@ -518,11 +518,19 @@ Examples:
 */
 
 function addKeyAndValue(arr, key, value){
-    return arr.reduce(function(acc, next){
-        next[key] = value;
-    }, []);
+    return arr.reduce(function(acc, next, idx){
+        acc[idx][key] = value;
+        return acc;
+    }, arr)
 }
 
+function addKeyAndValue(arr, key, value){
+        
+    return arr.reduce(function(acc, next){
+        next[key] = value;
+        return acc.push([next]);
+    }, []);
+}
 
 /*
 Write a function called partition which accepts an array and a callback and returns an array with two arrays inside of it. The partition function should run the callback function on each value in the array and if the result of the callback function at that specific value is true, the value should be placed in the first subarray. If the result of the callback function at that specific value is false, the value should be placed in the second subarray. 
