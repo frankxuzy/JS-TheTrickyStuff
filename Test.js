@@ -469,7 +469,10 @@ Examples:
 */
 
 function extractValue(arr, key){
-    
+    return arr.reduce(function(acc, next){
+        acc.push(next[key]);
+        return acc;
+    },[]);
 }
 
 
@@ -485,7 +488,18 @@ Examples:
 */
 
 function vowelCount(str){
-   
+   strToArr = str.toLowerCase().split('');
+   vowelStr = 'aeiou';
+   return strToArr.reduce(function(acc, next){
+       if(vowelStr.includes(next)){
+            if(next in acc){
+                acc[next]++;
+            } else {
+                acc[next] = 1;
+            }
+       }
+        return acc;
+   }, {})
 }
 
 /*
@@ -504,7 +518,9 @@ Examples:
 */
 
 function addKeyAndValue(arr, key, value){
-    
+    return arr.reduce(function(acc, next){
+        next[key] = value;
+    }, []);
 }
 
 
@@ -531,5 +547,12 @@ Examples:
 */
 
 function partition(arr, callback){
-    
+    return arr.reduce(function(acc, next){
+        if(callback(next)){
+            acc[0].push(next);
+        } else {
+            acc[1].push(next);
+        }
+        return acc;
+    },[[], []]);
 }
