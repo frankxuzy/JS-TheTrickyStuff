@@ -222,6 +222,92 @@ allArrays([[1], [2], [3,4]]); // true
 allArrays([[1], [2], {}]); // false
 ```
 
+### reduce function
+- Accepts a callback function and an optional second parameter
+- Iterates through an array
+- Runs a callback on each value in the array
+- The first parameter to the callback is either the first value in the array or the optional second parameter
+- The first parameter to the callback is often called "accumulator"
+- The returned value from the callback becomes the new value of accumulator
+
+Whatever is returned from the callback function, becomes the new value of the accumulator!
+<img src="assets/Reduce.png" alt="Image of Reduce">
+
+e.g.1
+```
+var arr = [1,2,3,4,5];
+
+arr.reduce(function(accumulator, nextValue){
+    return accumulator + nextValue;
+});
+
+// 15
+```
+
+e.g.2
+```
+var arr = [1,2,3,4,5];
+
+arr.reduce(function(accumulator, nextValue){
+    return accumulator + nextValue;
+},10);
+// 25
+```
+
+
+e.g.3 str
+```
+var names = ['Tim', 'Matt', 'Colt', 'Elie'];
+
+names.reduce(function(accumulator, nextValue){
+    return accumulator += ' ' + nextValue;
+},'The instructors are');
+// The instructors are Tim Matt Colt Elie
+```
+
+e.g.4 obj
+```
+var arr = [5,4,1,4,5];
+
+arr.reduce(function(accumulator, nextValue){
+    if(nextValue in accumulator){
+        accumulator[nextValue]++;
+    } else {
+        accumulator[nextValue] = 1;
+    }
+    return accumulator;
+},{});
+// 	{5:2, 4:2, 1:1}
+```
+e.g.5 
+```
+function sumOddNumbers(arr){
+    return arr.reduce(function(accumulator,nextValue){
+        if(nextValue % 2 !== 0){
+            accumulator += nextValue;
+        }
+        return accumulator;
+    },0);
+}
+
+sumOddNumbers([1,2,3,4,5]); // 9
+
+```
+e.g.6
+```
+function createFullName(arr){
+    return arr.reduce(function(accumulator, nextValue){
+        accumulator.push(nextValue.first + " " + nextValue.last);
+        return accumulator;
+    }, []);
+}
+
+createFullName([{first:"Colt", last:"Steele"}, {first:"Matt", last:"Lane"}]);
+
+// ["Colt Steele", "Matt Lane"]
+
+
+```
 
 
 
