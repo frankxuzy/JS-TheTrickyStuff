@@ -609,7 +609,7 @@ Examples (yours might not be like this, since the answer is random every time):
     game2(1) // "No more guesses the answer was 0"
     game2(1) // "You are all done playing!"
 */
-
+// my solution
 function guessingGame(amount){
     var randomNumber = Math.floor(Math.random()*10);
     var gotIt = false;
@@ -636,4 +636,27 @@ function guessingGame(amount){
     }
     
   }
+}
+
+// official solution
+function guessingGame(amount){
+    var answer = Math.floor(Math.random()*11);
+    var guesses = 0;
+    var completed = false;
+    return function(guessNumber){
+        if(!completed){
+            guesses++;
+            if(guess === answer) {
+                completed = true;
+                return "You got it!"
+            }
+            else if(guess > answer) return "Your guess is too high!"
+            else if(guess < answer) return "Your guess is too low!"
+            else if(guesses === amount){
+                completed = true;
+                return "No more guesses the anser was " + answer;
+            } 
+        }
+        return "All done playing!"
+    }
 }
