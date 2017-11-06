@@ -168,6 +168,7 @@ function classRoom(){
 ### Recap
 - Closure exists when an inner function makes use of variables declared in an outer function which has previously returned
 - Closure does not exist if you do not return an inner function and if that inner function does not make use of variables returned by an outer function
+- JavaScript will only remember values that are being used inside of the inner function, not all variables defined in the outer function
 - We can use closures to create private variables and write better code that isolates our logic and application
 
 
