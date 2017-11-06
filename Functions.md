@@ -308,6 +308,13 @@ createFullName([{first:"Colt", last:"Steele"}, {first:"Matt", last:"Lane"}]);
 
 
 ```
+# Array function RECAP
+- forEach iterates over an array, runs a callback on each value and returns undefined
+- map creates a new array, runs a callback on each value and pushes the result of each callback in the new array
+- filter creates a new array, runs a callback on each value and if the result of the callback returns true, that value is added to the new array
+- some iterates through an array and runs a callback on each value, if the callback for at least one value returns true, some returns true, otherwise false
+- every iterates through an array and runs a callback on each value, if the callback at any time returns false, every returns false
+r- educe returns an accumulated value which is determined by the result of what is returned to each callback
 
 
 

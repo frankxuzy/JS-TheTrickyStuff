@@ -56,6 +56,36 @@ function outerFn(){
 The first one is NOT, but the second one is. Why?
 Because a closure only exists when an inner function makes use of variables defined from an outer function that has returned. If the inner function does not make use of any of the external variables all we have is a nested function. 
 
+add debugger into function
+```
+function outerFn(){
+    var data = "something from outer"
+    var fact = "remember me!";
+    return function innerFn(){
+        debugger
+        return fact;
+    }
+}
+```
+put it into chrome console. and run outerFn()(). the function will pause in debugger
+the press escape to open the console.
+
+```
+fact
+"remember me!"
+data
+VM1713:1 Uncaught ReferenceError: data is not defined
+    at eval (eval at innerFn (:5:9), <anonymous>:1:1)
+    at innerFn (<anonymous>:5:9)
+    at <anonymous>:1:10
+(anonymous) @ VM1713:1
+innerFn @ VM1572:5
+(anonymous) @ VM1621:1
+```
+That means
+only variables used in th inner function are remembered.
+Closures don't remember everything from an outer function, just the variables they need  .
+
 ### Private Variables
 
 In other languages, there exists support for variables that can not be modified externally. We call those private variables, but in JavaScript we don't have that built in. No worries - closures can help!
@@ -103,6 +133,33 @@ course1.getInstructors() // ["Elie", "Colt", "Ian"]
 course2 = classRoom()
 course2.getInstructors() // ["Elie", "Colt"] - not affected by course1
 
+// but we can remove instructor from course like:
+course1.getInstructors().pop();
+course1.getInstructors();
+(2) ["Colt", "Elie"]
+course1.getInstructors().pop();
+"Elie"
+course1.getInstructors().pop();
+"Colt"
+course1.getInstructors();
+[]
+
+// How to prevent this happening, to make it immutable
+// Correct Implementation
+
+function classRoom(){
+    var instructors = ["Elie", "Colt"];
+    return {
+        getInstructors: function(){
+            return instructors.slice();
+        },
+        addInstructor: function(instructor){
+            instructors.push(instructor);
+            // always return a copy of the array
+            return instructors.slice();
+        }
+    }
+}
 // we also have NO access to the instructors variable
 // which makes it private - no one can modify it...you're stuck with Colt and Elie
 
