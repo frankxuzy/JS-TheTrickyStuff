@@ -102,6 +102,18 @@ person.sayHi() // "Hi Elie"
 person.determineContext() // true
 ```
 
+What should the keyword 'this' refer to here?
+```
+var person = {
+    firstName: "Elie",
+    determineContext: this;
+}
+```
+```
+person.determineContext; // window
+```
+A keyword 'this' is defined when a function is run! There is not a function being run here to create a new value of the keyword 'this' so the value of 'this' is still the window!
+
 What happens when we have a nested object?
 ```
 var person = {
@@ -140,7 +152,7 @@ Call | thisArg, a, b, c, d , ... | Yes
 Apply | thisArg, [a,b,c,d, ...] | Yes
 Bind | thisArg, a, b, c, d , ...	| No
 
-e.g. Fixing up with `call`
+##### Fixing up with `call`
 ```
 var person = {
     firstName: "Colt",
@@ -212,7 +224,53 @@ var elie = {
 colt.sayHi() //Hi Colt
 colt.sayHi.call(elie); //Hi Elie
 ```
-e.g. What about `apply`? 
+Let's make a new function to sayHi to everyone
+```
+function sayHi(){
+    return "Hi " + this.firstName;
+}
+
+var colt = {
+	firstName: "Colt"
+}
+var elie = {
+	firstName: "Elie"
+}
+
+sayHi.call(colt); //Hi Colt
+sayHi.call(elie); //Hi Elie
+```
+
+Another Use Case For Call
+Let's imagine we want to select all the 'divs' on a page
+```
+var divs = document.getElementsByTagName('divs');
+```
+How can we find all the divs that have the text "Hello". Using filter would be nice!
+```
+divs.filter // undefined
+```
+Unfortunately, divs is not an array, it's an array like object so filter won't work.
+So how can we convert an array-like-object into an array?
+Very similar to the way we make copies of arrays - using slice!
+
+How can we do this?
+call to the rescue!
+
+Let's use the slice method on arrays, but instead of the target of slice (the keyword this) being that array, let's set the target of the keyword `this` to be our divs array-like-object.
+```
+var divsArray = [].slice.call(divs);
+// you might also see this as Array.prototype.slice.call(divs) 
+// they do the same thing
+```
+```
+divsArray.filter(function(val){
+    return val.innerText === 'Hello';
+});
+```
+What we are doing is trying to slice something that is not actually an array! In JavaScript, slice will not work on all data types, but it works very well on array-like-objects
+
+##### What about `apply`? 
 *It's almost identical to call - except the parameters!*
 
 ```
@@ -240,8 +298,28 @@ colt.addNumbers.apply(elie,[1,2,3,4]) // Elie just calculated 10
 
 
 ```
+##### When to use apply
+When a function does not accept an array, apply will spread out values in an array for us!
 
-e.g. What about `bind`?
+```
+var nums = [5,7,1,4,2];
+
+Math.max(nums); // NaN 
+
+Math.max.apply(this, nums); // 7
+
+function sumValues(a,b,c){
+    return a+b+c;
+}
+
+var values = [4,1,2];
+
+sumValues(values); // "4,1,2undefinedundefined"
+
+sumValues.apply(this,[4,1,2]); // 7
+```
+
+#### What about `bind`?
 *The parameters work like call, but bind returns a Function Definition with the context of 'this' bound already!*
 
 *Function definition:*
@@ -300,11 +378,13 @@ When it's declared, the context in which the function is executed is actually th
 
 *Use bind to set the correct context of 'this'*
 ```
+// we can use bind(colt) to achieve the same purpose, however if we need use this method in other function like elie.sayHi,  
+// the entire variable will break. So we are more commonly use 'this'. 
 var colt = {
     firstName: "Colt",
     sayHi: function(){
         setTimeout(function(){
-            console.log("Hi " + this.firstName)
+            console.log("Hi " + this.firstName);
         }.bind(this),1000)
     }
 }
