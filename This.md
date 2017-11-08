@@ -400,6 +400,8 @@ colt.sayHi() // Hi Colt (1000 milliseconds later)
 
 
 #### 4 - The 'new' keyword
+
+We can set the context of the keyword 'this' using the 'new' keyword - it does quite a bit more as well which we will discuss further when we talk about OOP
 e.g.
 ```
 function Person(firstName, lastName){
