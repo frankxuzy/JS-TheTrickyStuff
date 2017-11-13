@@ -6,7 +6,7 @@
 - Describe and diagram the relationship between \_\_proto\_\_, prototype and constructor
 - Add methods and properties on the prototype object to write more efficient code
 - Explain the differences between adding methods and properties to the prototype versus the constructor function
-
+- Implement inheritance in JavaScript through the prototype object
 
 ### The `new` keyword
 We previously used the `new` keyword to create objects from constructor functions - let's recap what it does
@@ -41,8 +41,8 @@ function Person(name){
 
 var elie = new Person("Elie");
 var colt = new Person("Colt");
-// since we used the new keyword, we have established
-// a link between the object and the prototype property
+// since we used the new keyword, a property has been added to each of these objects called dunder proto.
+// we have established a link between the object and the prototype property
 // we can access that using __proto__
 ```
 ```
@@ -102,6 +102,17 @@ true
 Question: Where does the push method come from?
 The answer is in Dunder proto.
 
+
+```
+var arr = [];
+undefined
+arr.hasOwnProperty('length')
+true
+arr.hasOwnProperty('aaa')
+false
+// hasOwnProerty method is in the /_/_proto/_/_ of O bject inside of /_/_proto/_/_ of Array
+
+```
 
 ### Prototype Chain
 How does JavaScript find methods and properties?
