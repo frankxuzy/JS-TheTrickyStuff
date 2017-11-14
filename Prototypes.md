@@ -202,6 +202,192 @@ car1.honk();
 - To share properties and methods for objects created by a constructor function, place them in the prototype as it is the most efficient
 
 
+### Inheritance 
+- What is it?
+The passing of methods and properties from one class to another
+
+- Why?
+```
+// without inheritance student should Create another same methods as Person
+function Person(firstName, lastName){
+    this.firstName = firstName;
+    this.lastName = lastName;
+}
+
+Person.prototype.sayHi = function(){
+    return "Hello " + this.firstName + " " + this.lastName;
+}
+
+function Student(firstName, lastName){
+    return Person.apply(this, arguments);
+}
+
+Student.prototype.sayHi = function(){
+    return "Hello " + this.firstName + " " + this.lastName;
+}
+```
+- How?
+```
+// let's try to Assign the prototype property of one object to be another's!
+
+function Person(firstName, lastName){
+    this.firstName = firstName;
+    this.lastName = lastName;
+}
+
+Person.prototype.sayHi = function(){
+    return "Hello " + this.firstName + " " + this.lastName;
+}
+
+function Student(firstName, lastName){
+    return Person.apply(this, arguments);
+}
+
+Student.prototype = Person.prototype;
+
+var elie = new Student('Elie', 'Schoppik');
+elie.sayHi(); // "Hello Elie Schoppik"
+```
+- It works!!??
+Not exactly...
+
+```
+// if we add something onto the Student prototype object
+Student.prototype.status = function(){
+    return "I am currently a student!";
+}
+// Now let's create a new object from the Person constructor.
+var elie = new Person('Elie', 'Schoppik');
+
+elie.status(); // "I am currently a student!"
+
+// Uh oh...why does the Person prototype have properties from the Student prototype? Student inherits from Person, 
+// not the other way around...
+
+```
+```
+var o = {name: 'Sean'}
+undefined
+var o2 = o;
+undefined
+o2.name
+"Sean"
+o.name
+"Sean"
+o2.age = 3
+3
+o2
+{name: "Sean", age: 3}
+o
+{name: "Sean", age: 3}
+o.age
+3
+
+// when we assign one obj to another we do not create a brand-new obj we just create a reference or a link to an existing object.
+
+```
 
 
 
+- The problem recap
+*We can't assign one object to another - it will just create a reference!*
+*This means if we change the Student.prototype, it will affect the Person.prototype!*
+*We still want all of the methods and properties from the Parent.prototype, but we want two totally separate objects - not a reference!*
+
+- A better alternative
+###Object.create
+Creates a brand new function and accepts as its first parameter, what the prototype object should be for the newly created object. 
+
+```
+// Object.create in action
+function Student(firstName, lastName){
+	return Person.apply(this, arguments);
+}
+
+Student.prototype = Object.create(Person.prototype);
+
+Student.prototype.status =function() {
+	return "I am currently a student!";
+}
+
+var elie = new Person('Elie', 'Schoppik');
+elie.status; // undefined
+
+// Student.prototype does not effect Person.prototype anymore!
+```
+
+- Why not 'new'?
+```
+function Student(firstName, lastName){
+    return Person.apply(this, arguments);
+}
+
+Student.prototype = new Person;
+```
+This will do almost the same thing, but add additional unnecessary properties on the prototype object (since it is creating an object with undefined properties just for the prototype).
+```
+Student.prototype = Object.create(Person.prototype);
+	Person {}
+Student.prototype
+Person {}
+	__proto__:
+		constructor: ƒ Person(firstName, lastName)
+		__proto__: Object
+
+Student.prototype = new Person;
+Person {firstName: undefined, lastName: undefined}
+firstName: undefined
+lastName: undefined
+	__proto__:
+		constructor: ƒ Person(firstName, lastName)
+		__proto__: Object
+
+```
+
+- One missing piece
+```
+function Student(firstName, lastName){
+    return Person.apply(this, arguments);
+}
+
+Student.prototype.sayHi = function(){
+    return "Hello " + this.firstName + " " + this.lastName;
+}
+
+Student.prototype = Object.create(Person.prototype);
+
+Student.prototype.constructor; // Person
+
+// we need point the constructor back to Student
+Student.prototype.constructor = Student;
+```
+
+```
+Student.prototype.constructor
+ƒ Person(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+
+}
+
+Student.prototype.constructor = Student
+ƒ Student(firstName, lastName) {
+	return Person.apply(this, arguments);
+}
+
+Student.prototype.constructor
+ƒ Student(firstName, lastName) {
+	return Person.apply(this, arguments);
+}
+
+```
+
+### Two parts of inheritance
+- Set the prototype to be an object created with another prototype
+- Reset the constructor property
+
+### Recap
+- Every time the new keyword is used, a link between the object created and the prototype property of the constructor is established - this link can be accessed using __proto__
+- The prototype object contains a property called constructor, which points back to the constructor function
+- To share properties and methods for objects created by a constructor function, place them in the prototype as it is the most efficient
+- To pass methods and properties from one prototype object to another, we can use inheritance which involves setting the prototype property to be a newly created object using Object.create and reseting the constructor property
