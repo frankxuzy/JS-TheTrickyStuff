@@ -135,6 +135,14 @@ function Person(name){
 elie = new Person("Elie");
 elie.sayHi(); // Hi Elie
 
+function Person(name){
+    this.name = name;
+    this.sayHi = function(){
+        return "Hiiiiiii " + this.name; 
+    }
+}
+elie.sayHi(); // Hi Elie
+
 // now this code works, but it is inefficient
 // every time we make an object using the new keyword we have to redefine this function
 // but its the same for everyone! Let's put it on the prototype instead!
@@ -152,6 +160,11 @@ Person.prototype.sayHi = function(){
 elie = new Person("Elie");
 elie.sayHi(); // Hi Elie
 
+Person.prototype.sayHi = function(){
+        return "Hiiiiii " + this.name; 
+}
+
+elie.sayHi(); // Hiiiiii Elie
 // Muchhh better
 ```
 ### Your turn!
